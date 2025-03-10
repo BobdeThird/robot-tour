@@ -31,41 +31,41 @@ def main():
         (90, "turn"),
         (100, "move"),
         (-90, "turn"),
-        (100, "move"),
-        (90, "turn"),
-        (50, "move"),
-        (-50, "move"),
-        (90, "turn"),
-        (50, "move"),
-        (-90, "turn"),
-        (50, "move"),
-        (90, "turn"),
-        (100, "move"),
-        (90, "turn"),
-        (100, "move"),
-        (-100, "move"),
-        (-90, "turn"),
-        (50, "move"),
-        (-150, "move"),
-        (90, "turn"),
-        (150, "move"),
-        (90, "turn"),
-        (50, "move"),
-        (90, "turn"),
-        (50, "move"),
-        (-50, "move"),
-        (90, "turn"),
-        (50, "move"),
-        (-90, "turn"),
-        (150, "move"),
-        (90, "turn"),
-        (143, "move"),
-        (90, "turn"),
-        (103.5 - dowel_to_center, "move")
+        (100, "move")
+        # (90, "turn"),
+        # (50, "move"),
+        # (-50, "move"),
+        # (90, "turn"),
+        # (50, "move"),
+        # (-90, "turn"),
+        # (50, "move"),
+        # (90, "turn"),
+        # (100, "move"),
+        # (90, "turn"),
+        # (100, "move"),
+        # (-100, "move"),
+        # (-90, "turn"),
+        # (50, "move"),
+        # (-150, "move"),
+        # (90, "turn"),
+        # (150, "move"),
+        # (90, "turn"),
+        # (50, "move"),
+        # (90, "turn"),
+        # (50, "move"),
+        # (-50, "move"),
+        # (90, "turn"),
+        # (50, "move"),
+        # (-90, "turn"),
+        # (150, "move"),
+        # (90, "turn"),
+        # (143, "move"),
+        # (90, "turn"),
+        # (103.5 - dowel_to_center, "move")
     ]
 
     # Total time for all actions
-    move_time = 75.5 + 1.6
+    move_time = 15 #75.5 + 1.6
     
     move_time -= ((len(sequence) - 1) * 0.25)  # Account for 0.35s wait time
 
@@ -84,7 +84,7 @@ def main():
 
     # Execute the sequence
     for i, step in enumerate(sequence):
-        time = time.ticks_ms()
+        curr_time = time.ticks_ms()
         time_offset = 0
         if step[-1] == "move":
             distance = step[0]
@@ -92,15 +92,15 @@ def main():
 
             display_status(f"Move: {distance}cm", f"Time: {action_time:.2f}s")
             move(distance, action_time, stop_motors=False)
-            time_offset = action_time - time.ticks_diff(time, time.ticks_ms())
+            time_offset = action_time - time.ticks_diff(curr_time, time.ticks_ms())
 
         elif step[-1] == "turn":
             angle = step[0]  # Just take the angle value
             display_status(f"Turn: {angle}°", "Turning...")
             turn(angle)  # Call turn with just the angle
-            time_offset = 0.36 - time.ticks_diff(time, time.ticks_ms())
+            time_offset = 0.36 - time.ticks_diff(curr_time, time.ticks_ms())
 
-        time.sleep(0.25 + time_offset)
+        time.sleep(0.25)
         # Pause briefly between actions if not the last
     # end time
     end_time = time.ticks_ms()
