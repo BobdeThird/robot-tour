@@ -24,7 +24,9 @@ def turn(target_angle):
     """
     # if turning left, overturn by 1 deg
     if target_angle < 0:
-        target_angle += 2.25
+        target_angle += .25
+    if target_angle > 0:
+        target_angle += 1
 
     
     # Calculate target encoder counts
